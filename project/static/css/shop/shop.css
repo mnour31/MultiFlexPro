@@ -1,0 +1,24 @@
+a {
+  text-decoration: none;
+}
+/* START FROM HERE */
+svg {
+  margin-bottom: 2em;
+}
+
+.rating__background {
+  fill: #FFE372;
+  stroke: red;
+  stroke-width: 1;
+  height: 100%;
+  width: 100%;
+}
+
+.rating__value {
+  fill: #FFB94B;
+  height: 100%;
+}
+/* END FROM HERE */
+/* start mange page */
+
+/* end mange page */

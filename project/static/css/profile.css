@@ -1,0 +1,17 @@
+
+/* start profile detail */
+
+
+.profile-detail .header img{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+
+}
+
+.profile-detail .section-1 .block  {
+    background-color: white;
+    padding: 15px;
+}
+/* end profile detail */

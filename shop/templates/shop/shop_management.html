@@ -1,0 +1,490 @@
+{% extends "base_shop.html" %}
+{% load static %}
+
+{% block title %}
+{{shop.name}}
+{% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/shop/shop.css' %}">
+
+
+<style>
+
+@media (max-width: 576px) {
+  .shoe-details .col-md-4 {
+    margin-top: 20px;
+  }
+}
+
+body {
+    background-color: black;
+}
+
+</style>
+{% endblock css %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- Container wrapper -->
+    <div class="container">
+      <!-- Navbar brand -->
+      <a class="navbar-brand me-2" href="{% url 'shop-management' %}">
+        <img
+          src="{{shop.logo.url}}"
+          height="30"
+          alt="MDB Logo"
+          loading="lazy"
+          style="margin-top: -1px;"
+        />
+      </a>
+      <!-- Toggle button -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-mdb-toggle="collapse"
+        data-mdb-target="#navbarButtonsExample"
+        aria-controls="navbarButtonsExample"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <i class="fas fa-bars"></i>
+      </button>
+  
+      <!-- Collapsible wrapper -->
+      <div class="collapse navbar-collapse" id="navbarButtonsExample">
+        <!-- Left links -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <div class="dropdown">
+                <button
+                  class="btn btn-primary dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-mdb-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Update
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li>
+                    <a class="dropdown-item" href="{% url 'orders-copmlete' %}">Orders</a>
+                </li>
+                  <li>
+                    <a class="dropdown-item" data-toggle="modal" data-target="#shopsetting" href="#">Shop Settings</a>
+                </li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </div>
+          </li>
+        </ul>
+        <!-- Left links -->
+  
+        <div class="d-flex align-items-center">
+
+        <button type="button" class="btn btn-dark px-3" data-toggle="modal" data-target="#createproduct">
+            <i class="fas fa-cart-plus"></i>
+        </button>
+        <a href="/shop/{{shop.slug}}" class="btn btn-info ml-6">
+            <i class="fas fa-eye"></i>
+        </a>
+        </div>
+      </div>
+      <!-- Collapsible wrapper -->
+    </div>
+    <!-- Container wrapper -->
+</nav>
+<!-- Navbar -->
+<!-- start section1 -->
+<section class="container section-1 mt-20">
+    <div class="row ">
+        <div class="col-md-8">
+            <div class="card">
+                <h5 class="card-header">Slider</h5>
+                <div class="card-body row">
+                    <div class="col-6">
+                        <p class="card-text">
+                            The size of the photos should be 50*60
+                        </p>
+                        <button type="button" class="btn btn-dark px-3" data-toggle="modal" data-target="#createslider">
+                            <i class="fas fa-location-arrow"></i>
+                        </button>
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            
+                            {% for slid in shop.slider.all %}
+                            <div class="col-md-4 text-center">
+                              <img src="{{slid.image.url}}" alt="{{slid.name}}" class="img-thumbnail">
+                                <form  method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="delete-slider" value="{{slid.id}}">
+                                    <button style="font-size:9px; padding: 10px;" type="submit" class="btn btn-danger mt-1">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </form>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+              </div>
+        </div>
+        <!-- start section details -->
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-header">Details Yuor Shop</div>
+                <div class="card-body shoe-details">
+                    <div class="row">
+                        <div class="col-md-4">
+                          <div class="card bg-primary text-white">
+                            <div class="card-body">
+                              <i class="fa fa-eye fa-3x float-left mr-3"></i>
+                              <h3 class="card-title">{{total_views|default:0}}</h3>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="card bg-success text-white">
+                            <div class="card-body">
+                              <i class="fa fa-th-list fa-3x float-left mr-3"></i>
+                              <h3 class="card-title">{{couner_products}}</h3>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="card bg-danger text-white">
+                            <div class="card-body">
+                              <i class="fa fa-shopping-cart fa-3x float-left mr-3"></i>
+                              <h3 class="card-title">{{orders_complete|default:0}}</h3>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+        </div>
+        <!-- end section details -->
+    </div>
+</section>
+<!-- end section1 -->
+<!-- start section2 -->
+<section class="container section-2 mt-20">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">Brands</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="card-text">
+                                Here you can add the brands that you deal with in bringing products to gain the trust of your customers.
+                            </p>
+                            <button type="button" class="btn btn-dark px-3" data-toggle="modal" data-target="#createbrand">
+                                <i class="fas fa-location-arrow"></i>
+                            </button>
+                              
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                {% for brand in shop.brands.all %}
+                                <div class="col-md-4 text-center">
+                                    <img src="{{brand.image.url}}" class="img-thumbnail" alt="{{brand.anme}}">
+                                    <form  method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="delete-brand" value="{{brand.id}}">
+                                        <button style="font-size:9px; padding: 10px;" type="submit" class="btn btn-danger mt-1 ">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </form>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+        </div>
+        <!-- start section details -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">Add Page</div>
+                <div class="card-body">
+                  <div class="row">
+
+                    <div class="col-md-4">
+                      <button type="button" class="btn btn-dark px-3" data-toggle="modal" data-target="#createpage">
+                        <i class="fas fa-location-arrow"></i>
+                    </button>
+                    </div>
+                    <div class="col-md-8">
+                      <div class="row">
+                        {% for page  in shop.pages.all %}
+                        <div class="col-md-4">
+                          <span>{{page.title}}</span>
+                          <form action="{% url 'create-page' %}"  method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="delete-page" value="{{page.id}}">
+                            <button style="font-size:9px; padding: 10px;" type="submit" class="btn btn-danger mt-1 ">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </form>
+                        </div>
+                        {% endfor %}
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+            </div>
+        </div>
+        <!-- end section details -->
+    </div>
+</section>
+<!-- end section2 -->
+<!-- start section3 -->
+<section class="container section-3 mt-20 mb-30">
+  <div class="row">
+
+      <div class="col-md-8">
+          <div class="card">
+              <div class="card-header">Products</div>
+              <div class="card-body">
+                {% for product in products %}
+                  <div class="row">
+                    <div class="col-md-3">
+                      <img class="img-thumbnail" style="max-width:50px ;" src="{{product.image.url}}" alt="{{product.title}}">
+                    </div>
+                    <div class="col-md-3">
+                      <h4>{{product.title | slice:":50"}}</h4>
+                    </div>
+                    <div class="col-md-3">
+                      <h6>{{shop.currency}} {{product.price}}</h6>
+                    </div>
+                    <div class="col-md-3">
+                      <a href="{% url 'shop-management' %}/{{product.id}}/edit" class="btn btn-primary">Edit</a>
+                    </div>
+                  </div>
+                  <hr>
+                {% endfor %}
+              </div>
+
+              <nav aria-label="Page navigation example ">
+                <ul class="pagination justify-content-center mt-20">
+                {% if products.has_previous %}
+                  <li class="page-item">
+                    <a href="?page={{ products.previous_page_number }}" class="page-link">Previous</a>
+                  </li>
+                {% endif %}
+          
+                {% if products.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ products.next_page_number }}">Next</a>
+                </li>
+                {% endif %}
+                </ul>
+              </nav>
+              
+
+            </div>
+      </div>
+
+      <div class="col-md-4">
+          <div class="card">
+              <div class="card-header">Fliter</div>
+              <div class="card-body">
+                <form  method="get">
+                  {{filter.form|crispy}}
+                  <button class="btn btn-primary" type="submit">Submit</button>
+                </form>
+              </div>
+          </div>
+      </div>
+
+  </div>
+</section>
+<!-- end section3 -->
+<!-- start section4 -->
+<section class="container mt-20 mb-30">
+  <div class="card">
+    <div class="card-header">Add Categories</div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <form method="post" action="{% url 'categorie' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{categorieform | crispy}}
+            <button class="btn btn-primary" type="submit">Submit</button>
+          </form>
+        </div>
+        <div class="col-md-8">
+          <div class="row">
+            {% for categorie in shop.categories.all %}
+              <div class="col-md-2">
+                <h6>{{categorie.name}}</h6>
+                <form action="{% url 'categorie' %}" method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="delete-categorie" value="{{categorie.id}}">
+                  <button style="font-size:9px; padding: 10px;" type="submit" class="btn btn-danger mt-1">
+                    <i class="fas fa-trash"></i> Delete
+                  </button>
+                </form>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- end section4 -->
+<!-- start all Modals -->
+<!-- start midal to create product -->
+<div class="modal fade" id="createproduct" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <!-- Modal header -->
+        <div class="modal-header">
+            <h5 class="modal-title" id="createModalLabel">Create Product</h5>
+            <button type="button" class="close btn btn-dark" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{productform|crispy}}
+        </div>
+        <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+        <script>
+            CKEDITOR.replace('id_content');
+        </script>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- end midal to create product -->
+<!-- start midal to create slider -->
+<div class="modal fade" id="createslider" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <!-- Modal header -->
+        <div class="modal-header">
+            <h5 class="modal-title" id="createModalLabel">Create Product</h5>
+            <button type="button" class="close btn btn-dark" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{sliderform|crispy}}
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- end midal to create slider -->
+<!-- start midal to shop setting  -->
+<div class="modal fade" id="shopsetting" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <!-- Modal header -->
+        <div class="modal-header">
+            <h5 class="modal-title" id="createModalLabel">Shop Settings</h5>
+            <button type="button" class="close btn btn-dark" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{shop_form|crispy}}
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- end midal to shop settingr -->
+<!-- start midal to Brand  -->
+<div class="modal fade" id="createbrand" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <!-- Modal header -->
+        <div class="modal-header">
+            <h5 class="modal-title" id="createModalLabel">Create Brand</h5>
+            <button type="button" class="close btn btn-dark" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{brandform|crispy}}
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- end midal to Brand  -->
+<!-- start midal to page  -->
+<div class="modal fade" id="createpage" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+      <!-- Modal header -->
+      <div class="modal-header">
+          <h5 class="modal-title" id="createModalLabel">Create Page</h5>
+          <button type="button" class="close btn btn-dark" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+          <form method="post" action="{% url 'create-page' %}">
+              {% csrf_token %}
+              {{pageform|crispy}}
+      </div>
+      <!-- Modal footer -->
+      <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+      </div>
+      </div>
+  </div>
+</div>
+<!-- end midal to page  -->
+
+  <!-- JQuery -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/mdbootstrap/Bootstrap-4-templates/admin/js/jquery-3.4.1.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/mdbootstrap/Bootstrap-4-templates/admin/js/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/mdbootstrap/Bootstrap-4-templates/admin/js/bootstrap.min.js"></script>
+{% endblock content %}

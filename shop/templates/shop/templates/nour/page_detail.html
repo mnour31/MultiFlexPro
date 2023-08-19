@@ -1,0 +1,50 @@
+{% extends 'shop/templates/nour/base.html' %}
+{% load static %}
+
+{% block meta %}
+<meta name="description" content="{{shop.bio}}">
+<meta name="author" content="{{shop.name}}">
+<!-- start meta twitter -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@YourTwitterHandle">
+<meta name="twitter:title" content="{{shop.name}}">
+<meta name="twitter:description" content="{{shop.bio}}">
+<meta name="twitter:image" content="{{shop.logo.url}}">
+<!-- end meta twitter -->
+<!-- start meta facebook -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{shop.name}}">
+<meta property="og:description" content="{{shop.bio}}">
+<meta property="og:url" content="{% url 'index' %}">
+<meta property="og:image" content="{{shop.logo.url}}">
+{% endblock meta %}
+
+{% block title %}
+  {{page.title}}
+{% endblock title %}
+
+{% block cssfiles %}
+<link rel="stylesheet" href="{% static 'css/shop/shop.css' %}">
+{% endblock cssfiles %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="product-big-title-area">
+  <div class="container">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="product-bit-title text-center">
+                  <h2>{{page.title}}</h2>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<div class="container">
+    <div class="col-md-12">
+        <div class="col-md-6 text-center">
+            <p>{{page.content}}</p>
+        </div>
+    </div>
+</div>
+{% endblock content %}

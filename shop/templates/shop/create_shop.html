@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  {{info.name}}
+{% endblock title %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<section class="col-md-12 bg-white mb-20 pd-20">
+    <div class="row container">
+
+        <div class="col-md-6 ">
+            <img src="{% static 'images/sec-blog.svg' %}" alt="{{info.name}}">
+        </div>
+
+        <div class="col-md-6 pd-20">
+            <h1>أنشئ متجرك الخاص الآن</h1>
+            <hr>
+            <p>أدر متجرك بكل سهولة باستخدام أدوات المخزون والمبيعات والدفع أونلاين والشحن المدمجة تماماً. قم بإنشاء صفحات منتجات تعمل على الهاتف المحمول خلال ثوان.</p>
+        </div>
+
+    </div>
+</section>
+<section class="col-md-12 mb-20 pd-20 d-flex justify-content-center align-items-center">
+    <div class="col-md-6">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{form|crispy}}
+            <button type="submit" class="btn btn-dark">حفظ</button>
+        </form>
+    </div>
+</section>
+{% endblock content %}

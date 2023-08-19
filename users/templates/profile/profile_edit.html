@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+تعديل الملف الشخصي
+{% endblock title %}
+
+
+{% block content %}
+{% load crispy_forms_tags %}
+<div class="col-md-12 container d-flex justify-content-center align-items-center bg-white pd-20 mt-20 mb-20">
+    <div class="col-md-8">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{userform | crispy}}
+            {{profileform | crispy}}
+            <button type="submit" class="btn btn-dark">حفظ</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}
+    

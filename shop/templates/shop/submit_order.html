@@ -1,0 +1,87 @@
+{% extends "base_shop.html" %}
+{% load static %}
+
+{% block title %}
+{{shop.name}}
+{% endblock title %}
+
+{% block css %}
+{% endblock css %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<section class="container mt-20">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <h5 class="card-header">Details Customer</h5>
+                <div class="card-body">
+                    <p>
+                        <span class="text-secondary">Name</span>
+                        {{shipping.customer.name}}
+                    </p>
+                    <p>
+                        <span class="text-secondary">Email</span>
+                        {{shipping.customer.email}}
+                    </p>
+                    <p>
+                        <span class="text-secondary">Address</span>
+                        {{shipping.address}}
+                    </p>
+                    <p>
+                        <span class="text-secondary">City</span>
+                        {{shipping.city}}
+                    </p>
+                    <p>
+                        <span class="text-secondary">zipcode</span>
+                        {{shipping.zipcode}}
+                    </p>
+                    <p>
+                        <span class="text-secondary">zipcode</span>
+                        {{shipping.zipcode}}
+                    </p>
+                </div>
+                <div class="card-footer text-muted">{{shipping.date_added}}</div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card text-center">
+                <div class="card-header">Order Details</div>
+                <div class="card-body">
+                    {% for  item in items %}
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img  class="img-thumbnail" src="{{item.product.image.url}}" alt="item.product.title}}">
+                            <h6><span class="text-primary">count</span> ({{item.quantity}})</h6>
+                        </div>
+                        <div class="col-md-8">
+                            <h5>{{item.product.title | slice:":30"}}</h5>
+                            <span>price ({{item.product.price}})</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="card-footer text-muted">
+                     
+                    <h5><span class="text-primary">Total</span> ({{total}})</h5>
+                </div>
+              </div>
+        </div>
+    </div>
+</section>
+<section class="container mt-20">
+    <div class="col-md-6">
+        <div class="card">
+            <h5 class="card-header">Submit Order</h5>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{form|crispy}}
+                    <button class="btn btn-primary" type="submit">submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+

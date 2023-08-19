@@ -1,0 +1,81 @@
+{% extends 'blog/templates/nour/base.html' %}
+{% load static %}
+{% load hitcount_tags %}
+{% block meta %}
+<meta name="description" content="{{blog.bio}}">
+<meta name="author" content="{{blog.name}}">
+<!-- start meta twitter -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@YourTwitterHandle">
+<meta name="twitter:title" content="{{blog.name}}">
+<meta name="twitter:description" content="{{blog.bio}}">
+<meta name="twitter:image" content="{{blog.logo.url}}">
+<!-- end meta twitter -->
+<!-- start meta facebook -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{blog.name}}">
+<meta property="og:description" content="{{blog.bio}}">
+<meta property="og:url" content="{% url 'index' %}">
+<meta property="og:image" content="{{blog.logo.url}}">
+{% endblock meta %}
+{% block title %}
+{{blog.name}}
+{% endblock title %}
+
+{% block metatags %}
+    <meta name="application-name" content="{{blog.name}}"/>
+    <meta name="description" content="{{post.desc}}">
+    <!-- Facebook Card -->
+    <meta property="og:title" content="{{post.title}}">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="http://127.0.0.1/b/{{blog.name}}/{{post.slug}}">
+    <meta property="og:image" content="http://127.0.0.1:8000/{{post.image.url}}">
+    <meta property="og:site_name" content="{{blog.name}}">
+    <meta property="og:description" content="{{post.desc}}">
+    <!-- /Facebook Card -->
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="{{blog.name}}">
+    <meta name="twitter:title" content="{{post.title}}">
+    <meta name="twitter:description" content="{{post.desc}}">
+    <meta name="twitter:image" content="http://127.0.0.1:8000/{{post.image.url}}">
+    <!-- /Twitter Card -->
+{% endblock metatags %}
+
+
+
+
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="container-fluid">
+    <div class="col-md-12 text-center">
+        <h1>search in {{blog.name}}</h1>
+    </div>
+    <div class="container">
+        <div class="mb-3">
+            <div class="section-title mb-0">
+                <h4 class="m-0 text-uppercase font-weight-bold">Search results about {{query}}</h4>
+            </div>
+        
+            <div class="bg-white border border-top-0 p-3">
+                {% for post in posts %}
+                <div class="d-flex align-items-center bg-white mb-3" style="height: 110px;">
+                    <img class="img-fluid" style="max-width:100px ;" src="{{post.image.url}}" alt="{{post.title}}">
+                    <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
+                        <div class="mb-2">
+                            <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="/b/{{blog.slug}}/{{post.slug}}/{{post.id}}">{{post.categorie}}</a>
+                            <a class="text-body" href="/b/{{blog.slug}}/{{post.slug}}/{{post.id}}"><small>{{post.created_date}}</small></a>
+                        </div>
+                        <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="/b/{{blog.slug}}/{{post.slug}}/{{post.id}}">{{post.title|slice:":30"}}</a>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

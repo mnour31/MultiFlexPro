@@ -1,0 +1,164 @@
+{% extends "base_blog.html" %}
+{% load static %}
+
+{% block title %}
+{{blog.name}}
+{% endblock title %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+{% endblock css %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<main>
+    <div class="col-md-12 container-fluid pt-20 pb-20">
+
+        <div class="row">
+
+            <div class="col-md-3">
+
+                <div class="col-md-10 pd-10 bg-white">
+
+                    <div class="block">
+                        <h3> Your blog information </h3>
+                    </div>
+                    
+                    <div class="block">
+                        <h4>blog logo</h4>
+                        <img src="{{blog.logo.url}}" alt="{{blog.name}}">
+                    </div>
+
+                    <div class="block">
+                        <h4>blog name</h4>
+                        <h2>{{blog.name}}</h2>
+                    </div>
+
+                    <div class="block">
+                        <h4> Blog description</h4>
+                        <p>{{blog.bio}}</p>
+                    </div>
+
+                    <div class="block">
+                        <h4> template </h4>
+                        <h3>{{blog.template}}</h3>
+                    </div>
+
+                    <div class="block">
+                        <h4> Blog language</h4>
+                        <h2>{{blog.lang}}</h2>
+                    </div>
+
+                    <div class="block">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            settings
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h2 class="modal-title fs-5" id="exampleModalLabel"> settings blog {{blog.name}}</h2>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+
+                                <form method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="modal-body">
+                                        {{form|crispy}}
+                                    </div>
+                
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">close</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6 bg-white d-flex justify-content-center align-items-center">
+                <div class="col-md-11  block">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{post_form|crispy}}
+                        <input type="submit" class="btn btn-dark" value="Save">
+                    </form>
+                </div>
+            </div>
+
+            <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+            <script>
+                CKEDITOR.replace('id_content');
+            </script>
+
+            <div class="col-md-3">
+
+                <div class="col-md-10 pd-10 bg-white">
+
+                    <div class="block d-flex justify-content-center align-items-center">
+                        <a class="btn btn-dark" href="{% url 'posts-has-blog' %}">Edit articles</a>
+                    </div>
+
+                    <div class="block d-flex justify-content-center align-items-center">
+                        <a class="btn btn-primary" href="/b/{{blog.name}}">View blog</a>
+                    </div>
+
+
+                    <div class="block d-flex justify-content-center align-items-center">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#categorieform">
+                             Add Categorie
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="categorieform" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h2 class="modal-title fs-5" id="exampleModalLabel">
+                                     Add Categorie
+                                </h2>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+
+                                <form method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="modal-body">
+                                        {{categorieform|crispy}}
+                                    </div>
+                
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">close</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="block d-flex justify-content-center align-items-center">
+                        <h4>count posts :  {{posts_has_blog.count}}</h4>
+                    </div>
+
+                    <div class="block d-flex justify-content-center align-items-center">
+                        <h4>count Views :  {{total_views}}</h4>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+        </div>
+        
+    </div>
+</main>
+{% endblock content %}

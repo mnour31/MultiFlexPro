@@ -1,0 +1,29 @@
+{% extends "base_blog.html" %}
+{% load static %}
+
+{% block title %}
+{{info.name}}
+{% endblock title %}
+
+{% block cssfiles %}
+  <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+{% endblock cssfiles %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<main>
+    <div class="col-md-12 container pt-20 pb-20 d-flex justify-content-center align-items-center ">
+        <div class="col-md-10 bg-white pd-20 d-flex justify-content-center align-items-center">
+            <form method="POST" action="{% url 'post_delete' post.id %}">
+                {% csrf_token %}
+                <input class="btn btn-dark" type="submit" value="تأكيد">
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock content %}
+
+
+
+
+

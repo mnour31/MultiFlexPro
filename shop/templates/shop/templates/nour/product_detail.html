@@ -1,0 +1,195 @@
+{% extends 'shop/templates/nour/base.html' %}
+{% load static %}
+
+{% block meta %}
+<meta name="description" content="{{product.desc}}">
+<meta name="author" content="{{product.title}}">
+<!-- start meta twitter -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@YourTwitterHandle">
+<meta name="twitter:title" content="{{product.title}}">
+<meta name="twitter:description" content="{{product.desc}}">
+<meta name="twitter:image" content="{{product.image.url}}">
+<!-- end meta twitter -->
+<!-- start meta facebook -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{product.title}}">
+<meta property="og:description" content="{{product.desc}}">
+<meta property="og:url" content="{% url 'index' %}">
+<meta property="og:image" content="{{product.image.url}}">
+{% endblock meta %}
+
+{% block title %}
+  {{product.title}}
+{% endblock title %}
+
+{% block cssfiles %}
+<link rel="stylesheet" href="{% static 'css/shop/shop.css' %}">
+{% endblock cssfiles %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="product-big-title-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-bit-title text-center">
+                    <h2>{{product.title}}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="single-product-area">
+    <div class="zigzag-bottom"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                {% include 'shop/templates/nour/sidebar.html' %}
+            </div>
+            
+            <div class="col-md-8">
+                <div class="product-content-right">
+                    <div class="product-breadcroumb">
+                        <a href="/shop/{{shop.slug}}">{{shop.name}}</a>
+                        <a href="">Category Name</a>
+                        <a href="/shop/{{shop.slug}}/{{product.slug}}/{{product.id}}">{{product.title | slice:":50"}}</a>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="product-images">
+                                <div class="product-main-img">
+                                    <img src="{{product.image.url}}" alt="{{product.title}}">
+                                </div>
+                                
+                                <div class="product-gallery">
+                                    <img src="{{product.image.url}}" alt="{{product.title}}">
+                                    <img src="{{product.image.url}}" alt="{{product.title}}">
+                                    <img src="{{product.image.url}}" alt="{{product.title}}">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-6">
+                            <div class="product-inner">
+                                <h2 class="product-name">Sony Smart TV - 2015</h2>
+                                <div class="product-inner-price">
+                                    <ins>$700.00</ins> <del>$100.00</del>
+                                </div>    
+                                
+                                <form action="" class="cart">
+                                    <div class="quantity">
+                                        <input type="number" size="4" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" step="1">
+                                    </div>
+                                    <button class="add_to_cart_button" type="submit">Add to cart</button>
+                                </form>   
+                                
+                                <div class="product-inner-category">
+                                    <p>Category: <a href="">Summer</a>. Tags: <a href="">awesome</a>, <a href="">best</a>, <a href="">sale</a>, <a href="">shoes</a>. </p>
+                                </div> 
+                                
+                                <div role="tabpanel">
+                                    <ul class="product-tab" role="tablist">
+                                        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Description</a></li>
+                                        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Reviews</a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane fade in active" id="home">
+                                            <h2>Product Description</h2>  
+                                            {{product.content|safe}}
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane fade" id="profile">
+                                            <h2>Reviews</h2>
+                                            <div class="submit-review">
+                                                <form  method="post">
+                                                {% csrf_token %}
+                                                {{reviewform | crispy}}
+                                                <p><input type="submit" value="Submit"></p>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="related-products-wrapper">
+                        <h2 class="related-products-title">Related Products</h2>
+                        <div class="related-products-carousel">
+                            {% for product in product_10 %}
+                            <div class="single-product">
+                                <div class="product-f-image">
+                                    <img src="{{product.image.url}}" alt="{{product.title}}">
+                                    <div class="product-hover">
+                                        <a href="#" class="add-to-cart-link update-cart" data-product="{{product.id}}" data-action="add"><i class="fa fa-shopping-cart"></i> Add to cart</a>
+                                        <a href="/shop/{{shop.slug}}/{{product.slug}}/{{product.id}}" class="view-details-link"><i class="fa fa-link"></i> See details</a>
+                                    </div>
+                                </div>
+
+                                <h2><a href="/shop/{{shop.slug}}/{{product.slug}}/{{product.id}}">{{product.title | slice:":30"}}</a></h2>
+
+                                <div class="product-carousel-price">
+                                    <ins>{{shop.currency}} {{product.get_discount}}</ins> <del>{{shop.currency}} {{product.price}}</del>
+                                </div> 
+                            </div>
+                            {% endfor %} 
+                        </div>
+                    </div>
+                </div>                    
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+<!-- srtat review -->
+<!-- Button trigger modal -->
+{% if request.user.is_authenticated %}
+<div class="container">
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#review">
+    Add Review
+</button>
+  
+<!-- Modal -->
+<div class="modal fade" id="review" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title fs-5" id="exampleModalLabel">تقييم</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+       
+        <div class="modal-body">
+            <form  method="post">
+                {% csrf_token %}
+            {{reviewform | crispy}}
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">الغاء</button>
+            <button type="submit" class="btn btn-primary">نشر</button>
+        </div>
+        
+        </div>
+    </div>
+    </div>
+</div>
+<!-- end review -->
+{% endif %}
+<section class="container mt-20 hero product col-md-12  mb-20 pd-20 bg-white ">
+<div class="block col-md-8">
+    {% for review in product.reviews.all %}
+    <div class="review pd-10 mt-5 bg-light">
+        <h4 class="review__title">{{review.created_by.name}}</h4>
+        <div class="review__score col-md-2">
+            {% include "shop/templates/nour/stars.html" %}
+        </div>
+        <div class="review__text">{{review.content}}</div>
+    </div>
+    {% endfor %}
+</div>
+</section>

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{{info.name}}
+{% endblock title %}
+
+{% block css %}
+<style>
+.section-1 {
+    background-color: #FFF;
+    padding: 20px;
+}
+</style>
+{% endblock css %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<section class="mt-20 mb-20 section-1">
+    <div class="container">
+        <div class="col-md-6">
+            <form  method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form | crispy}}
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock content %}

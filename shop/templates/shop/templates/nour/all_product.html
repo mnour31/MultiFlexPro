@@ -1,0 +1,116 @@
+{% extends 'shop/templates/nour/base.html' %}
+{% load static %}
+
+{% block meta %}
+<meta name="description" content="{{shop.bio}}">
+<meta name="author" content="{{shop.name}}">
+<!-- start meta twitter -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@YourTwitterHandle">
+<meta name="twitter:title" content="{{shop.name}}">
+<meta name="twitter:description" content="{{shop.bio}}">
+<meta name="twitter:image" content="{{shop.logo.url}}">
+<!-- end meta twitter -->
+<!-- start meta facebook -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{shop.name}}">
+<meta property="og:description" content="{{shop.bio}}">
+<meta property="og:url" content="{% url 'index' %}">
+<meta property="og:image" content="{{shop.logo.url}}">
+{% endblock meta %}
+
+{% block title %}
+  {{shop.name}}
+{% endblock title %}
+
+{% block cssfiles %}
+<link rel="stylesheet" href="{% static 'css/shop/shop.css' %}">
+<style>
+.iamge-product{
+    max-width: 180px;
+    max-height: 150px;
+}
+</style>
+{% endblock cssfiles %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="product-big-title-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-bit-title text-center">
+                    <h2>All Products</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="text-center">
+                <h3>filter</h3>
+                <form  method="get">
+                    {{filter.form | crispy}}
+                    <button type="submit">Filter</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="single-product-area">
+    <div class="zigzag-bottom"></div>
+    <div class="container">
+        <div class="row">
+            {% for product in products %}
+            <div class="col-md-3 col-sm-6">
+                <div class="single-shop-product">
+                    <div class="product-upper">
+                        <img class="iamge-product" src="{{product.image.url}}" alt="{{product.title}}">
+                    </div>
+                    <h2><a href="/shop/{{shop.slug}}/{{product.slug}}/{{product.id}}">{{product.title | slice:":20"}}</a></h2>
+                    <div class="product-carousel-price">
+                        <ins>${{product.price|floatformat:2}}</ins> <del>$999.00</del>
+                    </div>  
+                    
+                    <div class="product-option-shop">
+                        <a href="#" class="add-to-cart-link update-cart add_to_cart_button" data-product="{{product.id}}" data-action="add"><i class="fa fa-shopping-cart"></i> Add to cart</a>
+                    </div>                       
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-pagination text-center">
+                    <nav aria-label="Page navigation example ">
+                        <ul class="pagination justify-content-center mt-20">
+                        {% if products.has_previous %}
+                          <li class="page-item">
+                            <a href="?page={{ products.previous_page_number }}" class="page-link">Previous</a>
+                          </li>
+                        {% endif %}
+                  
+                        {% if products.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ products.next_page_number }}">Next</a>
+                        </li>
+                        {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

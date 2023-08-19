@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Register{% endblock title %}
+
+{% block css %}
+  <style>
+    .page-log {
+      background-color: #FBFBFB;
+      padding: 10px;
+      box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    }
+  </style>
+{% endblock css %}
+{% block content %} 
+{% load crispy_forms_tags %} 
+<!--Register--> 
+<div class="container py-5">
+	<div class="row">
+		<div class="col-lg-6 page-log">
+			<h1>Register</h1>
+			<form method="POST">
+			{% csrf_token %}
+			{{ form|crispy }}                    
+			<button class="btn btn-primary" type="submit">Register</button>
+			</form>
+			<p class="text-center">If you already have an account, <a href="/login">login</a> instead.</p>
+		</div>
+		<div class="col-lg-6">
+			<img src="{% static 'images/hero.svg' %}" class="img-fluid" alt="Hero Image">
+		</div>
+	</div>
+</div>
+{% endblock content %}

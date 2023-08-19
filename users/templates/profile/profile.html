@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+{{object.user.username}}
+{% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="{%  static 'css/profile.css' %}">
+<style>
+
+.img-sm {
+    max-width: 150px;
+}
+</style>
+{% endblock css %}
+
+{% block content %}
+<section class="container mt-20 bg-white">
+    <div class="row">
+        <div class="col-md-4 pd-10 text-center">
+            <img src="{{object.profile_img.url}}" alt="{{object.user.username}}" class="img-thumbnail">
+            <h1 class="pd-5">{{object.user.username}}</h1>
+            <hr>
+            <h4><span class="badge badge-primary">Job Title</span>  {{object.job_title}}</h4>
+        </div>
+        <div class="col-md-8 pd-20">
+            <div class="col-md-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item">
+                        <span>email : {{object.user.email}}</span>
+                      </li>
+                      <li class="breadcrumb-item">
+                        <span>country : {{object.country}}</span>
+                      </li>
+                      <li class="breadcrumb-item active" aria-current="page">
+                        <span>Age : {{object.age}}</span>
+                      </li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="card">
+                <div class="card-header">Bio</div>
+                <div class="card-body">
+                  <blockquote class="blockquote mb-0">
+                    <p>{{object.bio}}</p>
+                    <footer class="blockquote-footer">been joined in  <cite title="Source Title"> {{object.created_at}}</cite></footer>
+                  </blockquote>
+                </div>
+            </div>
+            <div class="row mt-10">
+                {% if cv != None %}
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">CV</div>
+                        <div class="card-body">
+                            <img class="img-thumbnail img-sm" src="{{cv.image.url}}" alt="{{cv.name}}">
+                          <p class="card-text">{{cv.about | slice:":30"}}</p>
+                          <a href="/cv/{{cv.slug}}/{{cv.id}}" class="btn btn-primary">Go View</a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% if shop != None %}
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">Shop</div>
+                        <div class="card-body">
+                            <img class="img-thumbnail img-sm" src="{{shop.logo.url}}" alt="{{cv.name}}">
+                          <p class="card-text">{{shop.bio | slice:":30"}}</p>
+                          <a href="/shop/{{shop.slug}}" class="btn btn-primary">Go View</a>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+
+
+
+

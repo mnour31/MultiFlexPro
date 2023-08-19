@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+About
+{% endblock title %}
+
+{% block css %}
+<style>
+@media only screen and (max-width: 767px){
+    .sec-img {
+        margin-top: 30px;
+    }
+    .sec-text {
+        text-align: center;
+    }
+}
+</style>
+{% endblock css %}
+
+{% block content %}
+<!-- start section 1 -->
+<section class="section-1 pd-10 mt-50 mb-50">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-6 sec-text mt-20">
+                <span class="badge badge-secondary">ABOUT US</span>
+                <h1 class="mt-10 fs-2"><span class="badge badge-primary">{{info.name}}</span> powers millions of businesses worldwide </h1>
+                <p class="fs-3 text-secondary">The all-in-one commerce platform to start, run, and grow a business.</p>
+                <a href="{% url 'create-shop' %}" class="btn btn-primary">Start Now</a>
+            </div>
+            <div class="col-md-6 sec-img">
+                <img class="img-thumbnail" src="{% static 'images/about/sec-1.jpg' %}" alt="about {{info.name}}">
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end section 1 -->
+<!-- start section 2 -->
+<section class="pd-10 mt-50 mb-50">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-8 text-center mt-20">
+                <h2 class="fs-1">One of our most important services</h2>
+
+                <p class="fs-5">Presenting a well-designed and visually appealing <a href="{% url 'create-cv' %}">resume</a> can increase the chances of a quick recruitment as it showcases the candidate's attention to detail and professionalism. A well-presented resume helps to grab the attention of the hiring manager, making it easier for them to quickly identify the candidate's relevant skills, experience and qualifications.</p>
+                <img class="img-fluid mb-5" src="{% static 'images/about/sec-2.png' %}" alt="resume">
+                <p class="fs-5">Additionally, a visually appealing resume can help to establish a positive first impression, which can be crucial in a competitive job market. Overall, presenting a beautifully designed resume can help to make the candidate stand out from the crowd and increase the chances of a successful recruitment.</p>
+                <a href="{% url 'create-cv' %}" class="btn btn-light">Start for free</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end section 2 -->
+{% endblock content %}

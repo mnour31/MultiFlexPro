@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+ {{name}} | {{info.name}}
+{% endblock title %}
+
+{% block css %}
+
+<style>
+.hero-section  {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.hero-title {
+  color: #007bff;
+}
+.services-section {
+    background-color: #4FC3F7;
+    padding: 10px;
+    margin: 50px 0;
+}
+@media (max-width: 576px) {
+  .services-section .col-lg-6 {
+    margin-top: 20px;
+  }
+}
+.section-3 {
+  padding: 10px;
+  margin: 30px 0;
+}
+
+.cv-hero {
+  background-color: #4FC3F7;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 10px;
+  color: #FFF;
+}
+.cv-hero .text-hero{
+  margin-top: 10%;
+}
+</style>
+{% endblock css %}
+
+{% block content %}
+<!-- start hero -->
+<section id="hero" class="hero-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <img src="{% static 'images/hero.svg' %}" class="img-fluid" alt="Hero Image">
+        </div>
+        <div class="col-lg-6">
+          <h1>Welcome to <span class="hero-title ">{{info.name}}</span></h1>
+          <p>{{info.desc}}</p>
+          <a href="{% url 'create-shop' %}" class="btn btn-primary">Start Now</a>
+        </div>
+      </div>
+    </div>
+</section>
+<!-- end hero -->
+<!-- start services -->
+<section id="services" class="services-section my-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 col-sm-12">
+          <img src="{% static 'images/hero-shop.svg' %}" class="img-fluid" alt="Services Image">
+        </div>
+        <div class="col-lg-6 col-sm-12">
+          <h2 class="services-title">Creating an Online Store has never been Easier</h2>
+          <p class="services-paragraph">With <span class="text-white">{{info.name}}</span>, setting up your online store is as easy as 1-2-3. Our user-friendly platform allows you to create a professional and fully-functional online store in no time. Whether you're a small business owner or an entrepreneur, we've got you covered.</p>
+          <button class="btn btn-primary">Launch Your Store</button>
+        </div>
+      </div>
+    </div>
+</section>
+<!-- end services -->
+<section class="section-3">
+<div class="container">
+  <h2 class="text-center my-5">Our Services</h2>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card hover-shadow">
+        <div class="card-body">
+          <h4 class="card-title">Expand Your Reach with an Online Store</h4>
+          <p class="card-text">An online store gives you the opportunity to showcase your products to a wider audience, without the limitations of a physical storefront. Embrace this chance to display your products in the best light and make a lasting impression on potential customers.</p>
+          <i class="fas fa-comment-dollar fa-2x"></i>
+          <a href="#" class="btn btn-primary btn-md">Learn More</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card hover-shadow">
+        <div class="card-body">
+          <h4 class="card-title">Make a Lasting Impression with a Well-Organized Product Display</h4>
+          <p class="card-text">An attractive and well-organized product display can make all the difference in converting website visitors into paying customers. Take the time to carefully curate your product display and watch your sales soar.
+
+          </p>
+          <i class="fas fa-comments-dollar fa-2x"></i>
+          <a href="#" class="btn btn-primary btn-md">Learn More</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card hover-shadow">
+        <div class="card-body">
+          <h4 class="card-title">Keep it Fresh: Constantly Update and Improve Your Product Display</h4>
+          <p class="card-text">An online store allows you to constantly update and improve your product display, ensuring that it stays fresh and relevant. Use this flexibility to your advantage and keep experimenting with different layouts and designs to see what resonates with your audience.</p>
+          <i class="fas fa-shopping-bag fa-2x"></i>
+          <a href="#" class="btn btn-primary btn-md">Learn More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- cv section -->
+<section class="cv-hero">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <img src="{% static 'images/resume-hero.svg' %}" class="img-fluid" alt="Create a resume for free">
+      </div>
+      <div class="col-lg-6 text-hero">
+        <h2>Create a resume <span class="hero-title ">for free</span></h2>
+        <p>
+          A well-crafted resume can be a powerful tool in your job search, highlighting your skills, experience, and accomplishments to potential employers. A well-written resume can help you stand out among other applicants and increase your chances of being selected for an interview. A well-structured resume can also help you communicate your value to an employer and showcase your achievements, which can make a strong first impression and help you get the job you want. Additionally, creating a resume can help you identify your own strengths and weaknesses and focus your job search on positions that are a good fit for your skills and experience.
+        </p>
+        <a href="{% url 'create-cv' %}" class="btn btn-primary">Start Now</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="hero col-md-12  mb-20 pd-20 bg-white ">
+    <div class="row container">
+
+        <div class="col-md-6">
+            <img src="{% static 'images/hero.svg' %}" alt="{{info.name}}">
+        </div>
+
+        <div class="col-md-6 pd-20">
+            <h1>جميع الخدمات في موقع {{info.name}} مجانية</h1>
+            <hr>
+            <p>امتلاك موقع الإلكتروني هو الشيء الذي يجعل الشركات والأفراد قادرين على الوصول إلى الجمهور الذين يبحثون عن منتجات أو خدماتهم. يعد الموقع الإلكتروني هو الطريقة الأسهل والأكثر كفاءة للوصول إلى الجمهور المحدد، يساعد على زيادة الإيرادات وتحسين الصورة العامة للشركة. يعد الموقع الإلكتروني هو الطريقة الأسهل للعلامة التجارية الخاصة بك للوصول إلى الجمهور الذين يبحثون عن منتجات أو خدماتها.</p>
+        </div>
+
+    </div>
+</section>
+<section class="hero col-md-12  mb-20 pd-20 ">
+    <div class="row container">
+        <div class="col-md-6">
+            <img src="{% static 'images/hero-blog.svg' %}" alt="{{info.name}}">
+        </div>
+        <div class="col-md-6 pd-20">
+            <h2> فوائد امتلاك مدونة </h2>
+            <hr>
+            <p>
+                إن كان لديك مدونة، فإنه يعد منصة مثالية للتعبير عن نفسك وإظهار مهاراتك، سواء كان ذلك في الكتابة، الصورة، التصميم، التطوير، أو أي مجال آخر. يمكن للمدونة أيضًا الإنتاج الإعلامي الذاتي، فهي تجعلك قادرًا على التحكم في الشخصية التي تريد أن تظهرها للعالم، وإظهار المشاريع التي تعمل عليها، وجعل العلاقات الخاصة بك أكثر قوة وشفافية.
+            </p>
+            <hr>
+            <a class="btn btn-dark" href="{% url 'create-blog' %}">انشاء مدونتك مجانا الان</a>
+        </div>
+    </div>
+</section>
+<section class="hero col-md-12  mb-20 pd-20 ">
+    <div class="row container">
+        <div class="col-md-6">
+            <img style="width: 500px;" src="{% static 'images/hero-shop.svg' %}" alt="{{info.name}}">
+        </div>
+        <div class="col-md-6 pd-20">
+            <h2> فوائد امتلاك متجر إلكتروني </h2>
+            <hr>
+            <p>
+                يعد متجر الكتروني مزيداً من المريح ، يوفر الوصول السهل للمنتجات والخدمات ، يزيد من الخيارات الشرائية ، يزيد من الجدية في التنظيم والإدارة الجملة ويخفف الضغط على الجهد الشخصي.
+            </p>
+            <hr>
+            <a class="btn btn-dark" href="{% url 'create-shop' %}">ابدأ تجربتك المجانية الأن</a>
+        </div>
+    </div>
+</section>

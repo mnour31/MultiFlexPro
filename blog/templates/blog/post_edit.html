@@ -1,0 +1,38 @@
+{% extends "base_blog.html" %}
+{% load static %}
+
+{% block title %}
+{{blog.name}}
+{% endblock title %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+{% endblock css %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<main>
+    <div class="col-md-12 container pt-20 pb-20 d-flex justify-content-center align-items-center ">
+
+            <div class="col-md-10 bg-white pd-20 d-flex justify-content-center align-items-center">
+                <div class="col-md-11  block">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{form|crispy}}
+                        <input type="submit" class="btn btn-dark" value="Save">
+                    </form>
+
+                    <hr>
+                   
+
+                </div>
+            </div>
+
+            <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+            <script>
+                CKEDITOR.replace('id_content');
+            </script>
+        
+    </div>
+</main>
+{% endblock content %}

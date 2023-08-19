@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@200;400;700&display=swap');
+
+:root {
+    --my-shadow:rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    --color-bg: #FFF;
+    --font-color: #323450;
+    --primary-color: #0074d985;
+    --color-my: #2F80ED;
+}
+body {
+  background: #f0f0f0;
+  font-family: 'Noto Sans Arabic', sans-serif;
+  font-size: 16px;
+}
+/* start header */
+.my-header {
+  box-shadow: var(--my-shadow);
+}
+/* end header */
+/* start footer */
+.media-links > li {
+  margin: 0 7px;
+}
+/* end footer */

@@ -1,0 +1,74 @@
+{% extends "base_blog.html" %}
+{% load static %}
+
+{% block title %}
+{{blog.name}}
+{% endblock title %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+  <style>
+.img-post-list {
+    width: 90px;
+    height: 90px;
+    max-width: 90px;
+    max-height: 90px;
+}
+  </style>
+{% endblock css %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<section class="col-md-12 container">
+    <div class="row">
+        <div class="col-md-8 bg-white pd-20">
+            {% for post in page %}
+            <div class="block col-md-12 row mt-10 mb-10">
+
+                <div class="col-md-12 text-center">
+                    <h2>{{post.title}}</h2>
+                </div>
+
+                <div class="col-md-6">
+                    <img class="img-post-list" src="{{post.image.url}}" alt="{{post.title}}">
+                </div>
+
+                <div class="col-md-6">
+                    <p>{{post.desc | slice:":100"}}</p>
+                </div>
+                <div class="col-md-12 row mt-20">
+                    <div class="col-md-4">
+                        <a class="btn btn-dark" href="/b/{{blog.name}}/{{post.slug}}/{{post.id}}">Show</a>
+                    </div>
+                    <div class="col-md-4">
+                        <a class="btn btn-dark" href="/b/manage-blog/{{post.id}}/edit">Setting</a>
+                    </div>
+                </div>
+                
+                
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="col-md-4">
+            
+        </div>
+    </div> <!-- end row -->
+
+    <nav aria-label="Page navigation example ">
+        <ul class="pagination justify-content-center mt-20">
+        {% if page.has_previous %}
+          <li class="page-item">
+            <a href="?page={{ page.previous_page_number }}" class="page-link">Previous</a>
+          </li>
+        {% endif %}
+
+        {% if page.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page.next_page_number }}">Next</a>
+        </li>
+        {% endif %}
+        </ul>
+    </nav>
+</section>
+{% endblock content %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  {{info.name}}
+{% endblock title %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<!-- start section 1 -->
+<section class="pd-10 mt-50 mb-50">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-6 sec-text mt-20">
+                <span class="badge badge-secondary">CREATE BLOG</span>
+                <h1 class="mt-10 fs-2"><span class="badge badge-primary">{{info.name}}</span></h1>
+                <p class="fs-6 text-secondary">Having a blog is important because it allows you to share your thoughts, opinions, and ideas with a wider audience. It can also serve as a platform to showcase your expertise, creativity, and writing skills. A blog can help you establish your personal or professional brand, build a following, and connect with like-minded individuals. Additionally, having a blog can increase your visibility online and drive traffic to your website, leading to increased opportunities for networking and business growth.</p>
+            </div>
+            <div class="col-md-6 sec-img">
+                <img class="img-thumbnail" src="{% static 'images/blog-hero-c.svg' %}" alt="create blog for free on {{info.name}}">
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end section 1 -->
+<section class="pd-10 mt-50 mb-50">
+    <div class="container">
+        <div class="col-md-6">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form|crispy}}
+                <button type="submit" class="btn btn-dark">Save</button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock content %}

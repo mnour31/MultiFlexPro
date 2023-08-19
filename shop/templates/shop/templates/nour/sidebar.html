@@ -1,0 +1,29 @@
+<div class="single-sidebar">
+    <h2 class="sidebar-title">Search Products</h2>
+    <form action="#">
+        <input type="text" placeholder="Search products...">
+        <input type="submit" value="Search">
+    </form>
+</div>
+
+<div class="single-sidebar">
+    <h2 class="sidebar-title">Products</h2>
+    {% for product in product_4 %}
+    <div class="thubmnail-recent">
+      <img src="{{product.image.url}}" class="recent-thumb" alt="{{product.title}}">
+      <h2><a href="/shop/{{shop.slug}}/{{product.slug}}/{{product.id}}">{{product.title | slice:":30"}}</a></h2>
+      <div class="product-sidebar-price">
+          <ins>{{shop.currency}} {{product.get_discount}}</ins> <del>{{shop.currency}} {{product.price}}</del>
+      </div>                             
+    </div>
+    {% endfor %}
+</div>
+
+<div class="single-sidebar">
+    <h2 class="sidebar-title">Recent Posts</h2>
+    <ul>
+      {% for product in product_5 %}
+      <li><a href="/shop/{{shop.slug}}/{{product.slug}}/{{product.id}}">{{product.title|slice:":35"}}</a></li>
+      {% endfor %}
+    </ul>
+</div>

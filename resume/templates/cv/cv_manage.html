@@ -1,0 +1,313 @@
+{% extends 'cv/base.html' %}
+{% load static %}
+
+{% block title %}
+{{cv.name}}
+{% endblock title %}
+
+{% block css %}
+<style>
+body {
+    background-color: black;
+}
+</style>
+{% endblock css %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<section class="section-1">
+    <div class="container">
+        <div class="col-md-12 mt-20 mb-20">
+            <div class="card">
+                <h5 class="card-header">
+                <!-- start  modal edit cv -->
+                <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#editcv">
+                    Edit  
+                </button>
+                <a href="/cv/{{cv.slug}}/{{cv.id}}" class="btn btn-info">View CV</a>
+                </h5>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img class="img-thumbnail" src="{{cv.image.url}}" alt="{{cv.name}}">
+                        </div>
+                        <div class="col-md-3">
+                            <h4>{{cv.name}}</h4>
+                            <p>{{cv.about}}</p>
+                            <span>{{cv.job_title}}</span>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                            <div class="col-md-8">
+                                <h4>Add Job Title</h4>
+                                <form action="{% url 'job-title' %}" method="post">
+                                    {% csrf_token %}
+                                    {{jobtitleform | crispy}}
+                                    <button type="submit" class="btn ">Submit</button>
+                                </form>
+                            </div>
+                            <div class="col-md-4">
+                                {% for job in cv.jobtitles.all %}
+                                  <p>{{job.name}}</p>
+                                  <form action="{% url 'job-title' %}" method="post">
+                                    {% csrf_token %}
+                                    <button class="btn mb-2" type="submit">
+                                        <input type="hidden" name="delete-job" value="{{job.id}}">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                  </form>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-2">
+    <div class="container">
+        <div class="col-md-12 mt-20 mb-20">
+            <div class="card">
+                <h5 class="card-header"> Add Skilles </h5>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <form action="{% url 'skilles' %}" method="post">
+                                {% csrf_token %}
+                                {{skilleform | crispy}}
+                                <button class="btn btn-primary" type="submit">Submit</button>
+                            </form>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="row">
+                                {% for skill in cv.skilles.all %}
+                                <form action="{% url 'skilles' %}" method="post">
+                                    {% csrf_token %}
+                                    <button class="btn mb-2" type="submit">
+                                        <input type="hidden" name="delete-skill" value="{{skill.id}}">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                  </form>
+                                <div class="progress mt-1" style="height: 20px;">
+                                    <div class="progress-bar" role="progressbar" style="width: {{skill.progrise}}%;" aria-valuenow="{{skill.progrise}}" aria-valuemin="0" aria-valuemax="100">{{skill.name}} {{skill.progrise}}%</div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-3">
+    <div class="container">
+        <div class="col-md-12 mt-20 mb-20">
+            <div class="card">
+                <h5 class="card-header"> Add Experience </h5>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <form action="{% url 'experience' %}" method="post">
+                                {% csrf_token %}
+                                {{experienceform | crispy}}
+                                <button class="btn btn-primary" type="submit">Submit</button>
+                            </form>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="row">
+                                {% for experience in cv.experiences.all %}
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <h5 class="card-header">{{experience.name}}</h5>
+                                        <div class="card-body">
+                                          <h5 class="card-title">{{experience.company_name}}</h5>
+                                          <p class="card-text">{{experience.desc | slice:":30"}}</p>
+                                          <form action="{% url 'experience' %}" method="post">
+                                            {% csrf_token %}
+                                            <button class="btn mb-2" type="submit">
+                                                <input type="hidden" name="delete-experience" value="{{experience.id}}">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                          </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-4">
+    <div class="container">
+        <div class="col-md-12 mt-20 mb-20">
+            <div class="card">
+                <h5 class="card-header"> Add Services </h5>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <form action="{% url 'services' %}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{serviceform | crispy}}
+                                <button class="btn btn-primary" type="submit">Submit</button>
+                            </form>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="row">
+                                {% for services in cv.services.all %}
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                                          <img src="{{services.image.url}}" class="img-fluid"/>
+                                          <a href="#!">
+                                            <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                                          </a>
+                                        </div>
+                                        <div class="card-body">
+                                          <h5 class="card-title">{{services.name}}</h5>
+                                          <p class="card-text">{{services.desc | slice:":20"}}</p>
+                                          <form action="{% url 'services' %}" method="post">
+                                            {% csrf_token %}
+                                            <button class="btn mb-2" type="submit">
+                                                <input type="hidden" name="delete-service" value="{{services.id}}">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                          </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-5">
+    <div class="container">
+        <div class="col-md-12 mt-20 mb-20">
+            <div class="card">
+                <h5 class="card-header"> Add Portfolio </h5>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <form action="{% url 'portfolio' %}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{portfolioform | crispy}}
+                                <button class="btn btn-primary" type="submit">Submit</button>
+                            </form>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="row">
+                                {% for portfolio in cv.portfolios.all %}
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                                          <img src="{{portfolio.image.url}}" class="img-fluid"/>
+                                          <a href="#!">
+                                            <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                                          </a>
+                                        </div>
+                                        <div class="card-body">
+                                          <h5 class="card-title">{{portfolio.name}}</h5>
+                                          <form action="{% url 'portfolio' %}" method="post">
+                                            {% csrf_token %}
+                                            <button class="btn mb-2" type="submit">
+                                                <input type="hidden" name="delete-portfolio" value="{{portfolio.id}}">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                          </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-6">
+    <div class="container">
+        <div class="col-md-12 mt-20 mb-20">
+            <div class="card">
+                <h5 class="card-header"> Add Testimonial </h5>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <form action="{% url 'testimonial' %}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{testimonialform | crispy}}
+                                <button class="btn btn-primary" type="submit">Submit</button>
+                            </form>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="row">
+                                {% for testimonial in cv.testimonials.all %}
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                                          <img src="{{testimonial.image.url}}" class="img-fluid"/>
+                                          <a href="#!">
+                                            <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                                          </a>
+                                        </div>
+                                        <div class="card-body">
+                                          <h5 class="card-title">{{testimonial.client_name}}</h5>
+                                          <form action="{% url 'testimonial' %}" method="post">
+                                            {% csrf_token %}
+                                            <button class="btn mb-2" type="submit">
+                                                <input type="hidden" name="delete-testimonial" value="{{testimonial.id}}">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                          </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- start  modal edit cv -->
+<div class="modal fade" id="editcv" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit CV</h5>
+            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form  method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{cv_form | crispy}}
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- end  modal edit cv -->
+{% endblock content %}

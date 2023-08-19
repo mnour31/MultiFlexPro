@@ -1,0 +1,77 @@
+{% extends "base_shop.html" %}
+{% load static %}
+
+{% block title %}
+{{shop.name}}
+{% endblock title %}
+
+{% block css %}
+{% endblock css %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<!-- srtart section 1 -->
+<section class="container mt-20">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="row">
+                {% for order in orders %}
+                <div class="card">
+                    <div class="card-header">Time : {{order.date_ordered}}</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h4 class="text-card">{{order.customer.name}}</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <h5>{{order.customer.email}}</h5>
+                            </div>
+                            <div class="col-md-4">
+                                {% if order.shipping == True and order.delivery == False and order.throwback == False  %}
+                                <a href="orders-complete/{{order.id}}/submit" class="btn btn-dark">is shipped </a>
+                                {% elif order.shipping == True and order.delivery == True and order.throwback == False  or order.delivery == True and order.throwback == False  %}
+                                <a href="orders-complete/{{order.id}}/submit" class="btn btn-success">sent delivered handed</a>
+                                {% elif order.shipping == True and order.delivery == True and order.throwback == True  or order.throwback == True %}
+                                <a href="orders-complete/{{order.id}}/submit" class="btn btn-danger">Throwback</a>
+                                {% else %}
+                                <a href="orders-complete/{{order.id}}/submit" class="btn btn-warning">Waiting</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <h5 class="card-header">Fliter</h5>
+                <div class="card-body">
+                    <form  method="get">
+                        {{fiter.form | crispy}}
+                        <button class="btn btn-primary" type="submit">fiter</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <nav aria-label="Page navigation example ">
+            <ul class="pagination justify-content-center mt-20">
+            {% if orders.has_previous %}
+              <li class="page-item">
+                <a href="?page={{ orders.previous_page_number }}" class="page-link">Previous</a>
+              </li>
+            {% endif %}
+      
+            {% if orders.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ orders.next_page_number }}">Next</a>
+            </li>
+            {% endif %}
+            </ul>
+        </nav>
+    </div>
+</section>
+<!-- end section 1 -->
+{% endblock content %}
